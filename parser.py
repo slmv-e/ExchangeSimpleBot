@@ -23,7 +23,7 @@ class Authorization:
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"
         }
 
-    def __auth(self, session):
+    def _auth(self, session):
         url = "https://api.100points.ru/login"
 
         data = {
@@ -43,7 +43,7 @@ class Parser(Authorization):
         output = []
 
         with requests.Session() as session:
-            self.__auth(session)
+            self._auth(session)
 
             for course_id in self.json_config.course_ids:
                 url = f"https://api.100points.ru/exchange/index?email=&name=&course_id={course_id}"
