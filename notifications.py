@@ -22,7 +22,7 @@ class Notifications:
         for course in courses_data:
             message_text += f"{course.name}\n"
             for lesson in course.lessons:
-                message_text += f"➥ {lesson.name}. Работ: {lesson.count}"
+                message_text += f"➥ {lesson.name}. Работ: {lesson.count}\n"
             message_text += "\n"
 
         for peer_id in self.__json_config.peer_ids:
