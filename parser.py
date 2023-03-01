@@ -40,7 +40,7 @@ class Parser(Authorization):
         self.json_config = json_config
 
     def parse(self) -> list[Course]:
-        output = []
+        output: list[Course] = []
 
         with requests.Session() as session:
             self._auth(session)
@@ -95,4 +95,9 @@ class Parser(Authorization):
                         lessons=course_lessons
                     )
                 )
-        return output
+        try:
+            output.sort(key=lambda course: int(course.name.split(".")[0].split()[-1]))
+        except ValueError as e:
+            print(e)
+        finally:
+            return output
