@@ -95,9 +95,9 @@ class Parser(Authorization):
                         lessons=course_lessons
                     )
                 )
-        try:
-            output.sort(key=lambda course: int(course.name.split(".")[0].split()[-1]))
-        except ValueError as e:
-            print(e)
-        finally:
-            return output
+        for course in output:
+            try:
+                course.lessons.sort(key=lambda lesson: int(lesson.name.split(".")[0].split()[-1]))
+            except ValueError as e:
+                print(e)
+        return output
