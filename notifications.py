@@ -16,7 +16,16 @@ class Notifications:
         self.__session_api = self.__vk_session.get_api()
         self.__longpoll = VkLongPoll(self.__vk_session)
 
-    def __handler(self):
+    def sender(self):
+        message_text = self.__handler()
+        if message_text:
+            for peer_id in self.__json_config.peer_ids:
+                try:
+                    self.__session_api.messages.send(peer_id=peer_id, message=message_text, random_id=get_random_id())
+                except Exception as ex:
+                    print(ex)
+
+    def __handler(self) -> str:
         courses_data: list[Course] = self.__parser.parse()
         message_text = ""
         for course in courses_data:
@@ -25,11 +34,7 @@ class Notifications:
                 message_text += f"➥ {lesson.name}. Работ: {lesson.count}\n"
             message_text += "\n"
 
-        for peer_id in self.__json_config.peer_ids:
-            try:
-                self.__session_api.messages.send(peer_id=peer_id, message=message_text, random_id=get_random_id())
-            except Exception as ex:
-                print(ex)
+        return message_text
 
     def start(self):
         schedule = Scheduler(tzinfo=dt.timezone.utc)

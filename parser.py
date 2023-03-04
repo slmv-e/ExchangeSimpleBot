@@ -50,7 +50,7 @@ class Parser(Authorization):
                 with session.get(url=url, headers=self.headers) as resp:
                     course_soup = BeautifulSoup(resp.text, "html.parser")
 
-                course_name = course_soup.select_one("#course_id > option[selected]").text
+                course_name = course_soup.select_one("#course_id > option[selected]").text.replace("\n", "").strip()
                 course_lessons = []
 
                 module_ids = [module['value'] for module in course_soup.select("#module_id > option")]
@@ -71,7 +71,7 @@ class Parser(Authorization):
                         with session.get(url=url, headers=self.headers) as resp:
                             lesson_soup = BeautifulSoup(resp.text, "html.parser")
 
-                        lesson_name = lesson_soup.select_one("#lesson_id > option[selected]").text
+                        lesson_name = lesson_soup.select_one("#lesson_id > option[selected]").text.replace("\n", "").strip()
                         try:
                             works_count = int(lesson_soup.find('div', id='example2_info').text.split()[-1])
                         except AttributeError:
