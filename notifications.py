@@ -40,7 +40,7 @@ class Notifications:
         schedule = Scheduler(tzinfo=dt.timezone.utc)
         tz_moscow = dt.timezone(dt.timedelta(hours=3))
         for hour in [0, 8, 12, 15, 18, 21]:
-            schedule.daily(dt.time(hour=hour, tzinfo=tz_moscow), self.__handler)
+            schedule.daily(dt.time(hour=hour, tzinfo=tz_moscow), self.sender)
         while True:
             schedule.exec_jobs()
             time.sleep(1)
